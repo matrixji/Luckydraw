@@ -13,8 +13,6 @@ public interface DBAccess
 
     int executeUpdate( String sql );
 
-    int clearTable(String sql);
-
     Map<Integer, String> queryConsolationData( String sql );
 
     public Employee getEmployeeById(String employeeId);

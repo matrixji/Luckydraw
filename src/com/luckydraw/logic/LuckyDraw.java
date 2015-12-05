@@ -30,20 +30,20 @@ public interface LuckyDraw
     int queryTotalCandidates();
 
     void generateExcel();
-    
+
     public void cancelTheWinner(String employeeId);
-    
+
     public String getPresentInfoOfTheEmployee(String employeeId);
-    
+
     public void saveWithPrizeLevelAndIdSet(int prizeLevel,Set<Integer> idSet);
-    
+
     public Employee getEmployeeById(String employeeId);
-    
-    public void generateExcel2014();
-    
+
     public List<Integer> getDrawnEndNumberList();
-    
+
     public boolean isReplenishEnabled(int prizeLevel);
-    
+
     public int getDrawnNumberByPrizeLevel(int prizeLevel);
+
+	public void generateExcel2014(List<String[]> sizePriceList);
 }

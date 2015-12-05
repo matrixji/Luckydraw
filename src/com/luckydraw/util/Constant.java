@@ -5,12 +5,15 @@ import java.awt.Color;
 public class Constant {
 
 	public static final int FORTH_PRIZE_TOTAL_DRAWING_COUNT = 3;
-	public static final int THIRD_PRIZE_TOTAL_DRAWING_COUNT = 11;
+	public static final int THIRD_PRIZE_TOTAL_DRAWING_COUNT = 1;
 	public static final int SECOND_PRIZE_TOTAL_DRAWING_COUNT = 3;
-	public static final int FIRST_PRIZE_TOTAL_DRAWING_COUNT = 6;
 	public static final int TOP_PRIZE_TOTAL_DRAWING_COUNT = 6;
+	public static final int FIRST_PRIZE_TOTAL_DRAWING_COUNT = 6;
 	public static final int CONSOLATION_PRIZE_TOTAL_DRAWING_COUNT = 8;
+	public static final int SEAT_PRIZE_TOTAL_DRAWING_COUNT = 3;
 
+	public static final int DREW_NUMBER_EVERYTIME_OF_SEAT_PRIZE_BY_TABLE_AND_SEAT = 5;
+	public static final int DREW_NUMBER_EVERYTIME_OF_SEAT_PRIZE_BY_SEAT = 1;
 	public static final int DREW_NUMBER_EVERYTIME_OF_SECOND_PRIZE = 10;
 	public static final int DREW_NUMBER_EVERYTIME_OF_THIRD_PRIZE = 5;
 	public static final int DREW_NUMBER_EVERYTIME_OF_FIRST_PRIZE = 1;
@@ -37,9 +40,18 @@ public class Constant {
 	public static final int LABEL_REFRESH_PERIOD = 30;
     public static final int TABLE_REFRESH_PERIOD = 50;
 
+    public static final String LOTTERY_BY_TABLENUMPLUSSEATNUM = "桌号+座位号";
+    public static final String LOTTERY_BY_SSEATNUM = "座位号";
+
     public static final String[] PRIZE_LEVEL_FOR_REPLENISH = new String[]{"一等奖", "二等奖"};
 
     public static final String[] COUNT_FOR_THIRD_PRIZE_DRAW = new String [] {"10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20"};
+
+    public static final String[] COUNT_FOR_SECOND_PRIZE_DRAW = new String [] {"17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27"};
+
+    public static final String[] COUNT_FOR_SEAT_PRIZE_DRAW = new String [] {"1", "2", "3", "4", "8", "9", "10", "11", "12", "13", "14", "15"};
+
+    public static final String[] COUNT_FOR_SEAT_OPTION_DRAW = new String [] {LOTTERY_BY_TABLENUMPLUSSEATNUM, LOTTERY_BY_SSEATNUM};
 
 	public static final String ERROR_HINT = "<html><center>我都持续工作好几分钟了,<br>让我休息会儿</center></html>";
 	public static final String MSG_NSN_ID_INVALID = "<html><center>您这是火星的员工号,<br>地球识别不了</center></html>";
@@ -47,7 +59,7 @@ public class Constant {
 	public static final String MSG_EMPLOYEE_NOT_DRAWN = "我本来就没中奖";
 	public static final String MSG_EMPLOYEE_CAN_BE_ABSENT = "我在休假";
 
-	public static final String TITLE_OF_APPLICATION = "NOKIA CN80 浙江分公司2015团拜会（SW3 + SyVe&RNCIV）";
+	public static final String TITLE_OF_APPLICATION = "NOKIA CN80 浙江分公司2016团拜会（SW3 + SyVe&RNCIV）";
 	public static final String TITLE_OF_PRESENT_CHECK_DIALOG = "员工到场情况查询";
 
 	public static final String BUTTON_TEXT_OF_RESET = "初始化数据";

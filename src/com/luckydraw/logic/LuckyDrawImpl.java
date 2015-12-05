@@ -186,8 +186,8 @@ public class LuckyDrawImpl implements LuckyDraw
     }
 
     @Override
-	public void generateExcel2014() {
-
+	public void generateExcel2014(List<String[]> seatPriceList) {
+    	Map<Integer, String> class8 = new HashMap<Integer, String>();
     	Map<Integer, String> class4 = dbAccess.queryData( "select * from employees where class="+PrizeLevelFlag.FORTH_PRIZE.getValue()+" and chosen="+DrawnFlag.DRAWN.getValue());
         Map<Integer, String> class3 = dbAccess.queryData( "select * from employees where class="+PrizeLevelFlag.THIRD_PRIZE.getValue()+" and chosen="+DrawnFlag.DRAWN.getValue());
         Map<Integer, String> class2 = dbAccess.queryData( "select * from employees where class="+PrizeLevelFlag.SECOND_PRIZE.getValue()+" and chosen="+DrawnFlag.DRAWN.getValue() );
@@ -196,6 +196,13 @@ public class LuckyDrawImpl implements LuckyDraw
         Map<Integer, String> class7 = dbAccess.queryConsolationData( "select * from employees where class="+PrizeLevelFlag.CONSOLATION_PRIZE.getValue()+" and chosen="+DrawnFlag.DRAWN.getValue()+" order by memo");
         Map<Integer, String> calcelledFirstPriceMap = dbAccess.queryData( "select * from employees where class="+PrizeLevelFlag.FIRST_PRIZE.getValue()+" and chosen="+DrawnFlag.CANCELLED.getValue() );
         Map<Integer, String> calcelledTopPriceMap = dbAccess.queryData( "select * from employees where class="+PrizeLevelFlag.TOP_PRIZE.getValue()+" and chosen="+DrawnFlag.CANCELLED.getValue() );
+
+        int i = 0;
+        for (String[] tmp:seatPriceList)
+        {
+        	class8.put(i, tmp[0] + "---" + tmp[1]);
+        	i++;
+        }
 
         boolean isEmpty = true;
         if(class4.size() > 0)
@@ -233,6 +240,11 @@ public class LuckyDrawImpl implements LuckyDraw
         {
             isEmpty = false;
             fileAccess.writeToExcel( "安慰奖", class7, 18 );
+        }
+        if( class8.size() > 0 )
+        {
+            isEmpty = false;
+            fileAccess.writeToExcel( "座位惊喜奖", class8, 21 );
         }
         if( isEmpty )
         {
@@ -298,6 +310,7 @@ public class LuckyDrawImpl implements LuckyDraw
 		String sql = "select count(*) as rowCount from employees where chosen="+DrawnFlag.DRAWN.getValue()+" and class="+prizeLevel;
         return dbAccess.queryCount( sql );
 	}
+
 
 
 

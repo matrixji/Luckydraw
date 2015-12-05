@@ -353,7 +353,10 @@ public class LuckyDrawUI2014 extends JFrame implements ActionListener
         if(seatPrizeDrewCount == seatPrizeDrawCountMax )
         	getRootPane().setDefaultButton( seatPrizeDrawButton );
         else
+        {
+        	getRootPane().setDefaultButton( seatPrizeDrawButton );
         	seatPrizeDrawButton.setEnabled( true );
+        }
         seatPrizeDrawButton.setText( getSeatDrawButtonText() );
         seatPrizeStopButton.setEnabled( false );
 	}

@@ -197,7 +197,7 @@ public class LuckyDrawImpl implements LuckyDraw
         Map<Integer, String> calcelledFirstPriceMap = dbAccess.queryData( "select * from employees where class="+PrizeLevelFlag.FIRST_PRIZE.getValue()+" and chosen="+DrawnFlag.CANCELLED.getValue() );
         Map<Integer, String> calcelledTopPriceMap = dbAccess.queryData( "select * from employees where class="+PrizeLevelFlag.TOP_PRIZE.getValue()+" and chosen="+DrawnFlag.CANCELLED.getValue() );
 
-        int i = 0;
+        int i = 1;
         for (String[] tmp:seatPriceList)
         {
         	class8.put(i, tmp[0] + "---" + tmp[1]);

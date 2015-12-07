@@ -14,7 +14,7 @@ public class Constant {
 
 	public static final int DREW_NUMBER_EVERYTIME_OF_SEAT_PRIZE_BY_TABLE_AND_SEAT = 5;
 	public static final int DREW_NUMBER_EVERYTIME_OF_SEAT_PRIZE_BY_SEAT = 1;
-	public static final int DREW_NUMBER_EVERYTIME_OF_SECOND_PRIZE = 10;
+	public static final int DREW_NUMBER_EVERYTIME_OF_SECOND_PRIZE = 1;
 	public static final int DREW_NUMBER_EVERYTIME_OF_THIRD_PRIZE = 5;
 	public static final int DREW_NUMBER_EVERYTIME_OF_FIRST_PRIZE = 1;
 	public static final int DREW_NUMBER_EVERYTIME_OF_TOP_PRIZE = 1;

@@ -14,7 +14,7 @@ public class Constant {
 
 	public static final int DREW_NUMBER_EVERYTIME_OF_SEAT_PRIZE_BY_TABLE_AND_SEAT = 5;
 	public static final int DREW_NUMBER_EVERYTIME_OF_SEAT_PRIZE_BY_SEAT = 1;
-	public static final int DREW_NUMBER_EVERYTIME_OF_SECOND_PRIZE = 1;
+	public static final int DREW_NUMBER_EVERYTIME_OF_SECOND_PRIZE = 5;
 	public static final int DREW_NUMBER_EVERYTIME_OF_THIRD_PRIZE = 5;
 	public static final int DREW_NUMBER_EVERYTIME_OF_FIRST_PRIZE = 1;
 	public static final int DREW_NUMBER_EVERYTIME_OF_TOP_PRIZE = 1;
@@ -47,9 +47,9 @@ public class Constant {
 
     public static final String[] COUNT_FOR_THIRD_PRIZE_DRAW = new String [] {"10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20"};
 
-    public static final String[] COUNT_FOR_SECOND_PRIZE_DRAW = new String [] {"17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27"};
+    public static final String[] COUNT_FOR_SECOND_PRIZE_DRAW = new String [] {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
 
-    public static final String[] COUNT_FOR_SEAT_PRIZE_DRAW = new String [] {"1", "2", "3", "4", "8", "9", "10", "11", "12", "13", "14", "15"};
+    public static final String[] COUNT_FOR_SEAT_PRIZE_DRAW = new String [] {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30"};
 
     public static final String[] COUNT_FOR_SEAT_OPTION_DRAW = new String [] {LOTTERY_BY_TABLENUMPLUSSEATNUM, LOTTERY_BY_SSEATNUM};
 

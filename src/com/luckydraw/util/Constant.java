@@ -59,7 +59,7 @@ public class Constant {
 	public static final String MSG_EMPLOYEE_NOT_DRAWN = "我本来就没中奖";
 	public static final String MSG_EMPLOYEE_CAN_BE_ABSENT = "我在休假";
 
-	public static final String TITLE_OF_APPLICATION = "NOKIA CN80 浙江分公司2016团拜会（SW3 + SyVe&RNCIV）";
+	public static final String TITLE_OF_APPLICATION = "Nokia 2016年会";
 	public static final String TITLE_OF_PRESENT_CHECK_DIALOG = "员工到场情况查询";
 
 	public static final String BUTTON_TEXT_OF_RESET = "初始化数据";

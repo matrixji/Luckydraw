@@ -110,7 +110,7 @@ public class LuckyDrawUI2014 extends JFrame implements ActionListener
 
 	private List<String[]> tempResultOfSeatDraw = new ArrayList<String[]>();
 
-	private boolean isSeatPrizeFirstRound = true;
+	private boolean isSeatPrizeDrawnByTableNum = true;
 
     public LuckyDrawUI2014()
     {
@@ -303,7 +303,7 @@ public class LuckyDrawUI2014 extends JFrame implements ActionListener
     }
 
     private String getSeatDrawButtonText() {
-    	return "座位惊喜奖("+seatPrizeDrewCount+"/"+seatPrizeDrawCountMax+")";
+    	return "惊喜座位奖("+seatPrizeDrewCount+"/"+seatPrizeDrawCountMax+")";
     }
 
     private String getStopButtonText(){
@@ -357,11 +357,12 @@ public class LuckyDrawUI2014 extends JFrame implements ActionListener
 		// TODO Auto-generated method stub
     	timer.stop();
 
-    	if (true == isSeatPrizeFirstRound)
-    	{
-    		isSeatPrizeFirstRound = false;
-    	}
     	seatPrizeDrewCount++;
+
+    	if (seatPrizeDrewCount == Integer.parseInt((String)seatPrizeTableCountComboBox.getSelectedItem()))
+    	{
+    		isSeatPrizeDrawnByTableNum = false;
+    	}
 
         if(seatPrizeDrewCount == seatPrizeDrawCountMax )
         {
@@ -390,7 +391,7 @@ public class LuckyDrawUI2014 extends JFrame implements ActionListener
 
             	removePreviousBufferedData(allDrawnSeatPrize, tempResultOfSeatDraw);
 
-            	if (true == isSeatPrizeFirstRound)
+            	if (false == isSeatPrizeDrawnByTableNum)
             	{
 	        		number = Integer.parseInt((String)seatPrizeFirstCountComboBox.getSelectedItem());
 	        		seatPrizeLotteryOption = Constant.LOTTERY_BY_TABLENUMPLUSSEATNUM;

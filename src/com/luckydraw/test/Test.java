@@ -2,6 +2,7 @@ package com.luckydraw.test;
 
 import java.util.List;
 import java.util.Map;
+import javax.swing.Timer;
 
 import com.luckydraw.dao.DBAccess;
 import com.luckydraw.dao.DBAccessImpl;
@@ -19,7 +20,7 @@ public class Test {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		
+
         Test test = new Test();
        // test.testCancelTheWinner();
        // test.testGetEmployInfoById();
@@ -28,18 +29,18 @@ public class Test {
        // test.testQueryDrawnCount();
         test.testPlaySound();
 	}
-	
+
 	public void testGetEmployInfoById(){
 		LuckyDraw luckyDrawService = new LuckyDrawImpl();
 		Employee employee = luckyDrawService.getEmployeeById("61417908");
 		System.out.println(employee.toString());
 	}
-	
+
 	public void testCancelTheWinner(){
 		LuckyDraw luckyDrawService = new LuckyDrawImpl();
 		luckyDrawService.cancelTheWinner("61417908");
 	}
-	
+
 	public void testGetDrawnEndNumberList(){
 		LuckyDraw luckyDrawService = new LuckyDrawImpl();
 		List<Integer> drawnEndNumberList = luckyDrawService.getDrawnEndNumberList();
@@ -48,7 +49,7 @@ public class Test {
 			System.out.println("Drawn end number:"+i);
 		}
 	}
-	
+
 	public void testQueryConsolationData(){
 		DBAccess dbAccess = new DBAccessImpl();
 		Map<Integer,String> consolationMap = dbAccess.queryConsolationData("select * from employees where class="+PrizeLevelFlag.CONSOLATION_PRIZE.getValue()+" and chosen="+DrawnFlag.DRAWN.getValue());
@@ -61,7 +62,7 @@ public class Test {
         int drawnCount = dbAccess.queryCount( sql );
         System.out.println("drawnCount="+drawnCount);
 	}
-	
+
 	public void testPlaySound(){
 		//Util.playSound(Constant.PATH_OF_SHOW_CANCEL_WINNER_WINDOW_SOUND);
 		//Util.playSound(Constant.PATH_OF_CANCEL_WINNER_SUCCESS_SOUND);

@@ -14,6 +14,7 @@ public class Constant {
 
 	public static final int DREW_NUMBER_EVERYTIME_OF_SEAT_PRIZE_BY_TABLE_AND_SEAT = 5;
 	public static final int DREW_NUMBER_EVERYTIME_OF_SEAT_PRIZE_BY_SEAT = 1;
+	public static final int DREW_NUMBER_EVERYTIME_OF_SEAT_PRIZE_BY_TABLE = 1;
 	public static final int DREW_NUMBER_EVERYTIME_OF_SECOND_PRIZE = 5;
 	public static final int DREW_NUMBER_EVERYTIME_OF_THIRD_PRIZE = 5;
 	public static final int DREW_NUMBER_EVERYTIME_OF_FIRST_PRIZE = 1;
@@ -42,6 +43,7 @@ public class Constant {
 
     public static final String LOTTERY_BY_TABLENUMPLUSSEATNUM = "桌号+座位号";
     public static final String LOTTERY_BY_SSEATNUM = "座位号";
+    public static final String LOTTERY_BY_TABLENUM = "桌号";
 
     public static final String[] PRIZE_LEVEL_FOR_REPLENISH = new String[]{"一等奖", "二等奖"};
 
@@ -49,9 +51,9 @@ public class Constant {
 
     public static final String[] COUNT_FOR_SECOND_PRIZE_DRAW = new String [] {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
 
-    public static final String[] COUNT_FOR_SEAT_PRIZE_DRAW = new String [] {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30"};
+    public static final String[] COUNT_FOR_SEAT_PRIZE_DRAW = new String [] {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"};
 
-    public static final String[] COUNT_FOR_SEAT_OPTION_DRAW = new String [] {LOTTERY_BY_TABLENUMPLUSSEATNUM, LOTTERY_BY_SSEATNUM};
+    public static final String[] COUNT_FOR_SEAT_OPTION_DRAW = new String [] {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56"};
 
 	public static final String ERROR_HINT = "<html><center>我都持续工作好几分钟了,<br>让我休息会儿</center></html>";
 	public static final String MSG_NSN_ID_INVALID = "<html><center>您这是火星的员工号,<br>地球识别不了</center></html>";

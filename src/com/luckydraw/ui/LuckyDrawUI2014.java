@@ -28,8 +28,8 @@ import net.miginfocom.swing.MigLayout;
 
 import com.luckydraw.enumset.PrizeLevelFlag;
 import com.luckydraw.listener.PrizeLevelComboBox;
-import com.luckydraw.listener.SeatPrizeComboBox;
-import com.luckydraw.listener.SeatPrizeOptionComboBox;
+import com.luckydraw.listener.SeatPrizeFirstRoundComboBox;
+import com.luckydraw.listener.SeatPrizeTableNumberComboBox;
 import com.luckydraw.listener.ThirdPrizeComboBox;
 import com.luckydraw.listener.SecondPrizeComboBox;
 import com.luckydraw.logic.LuckyDraw;
@@ -67,8 +67,8 @@ public class LuckyDrawUI2014 extends JFrame implements ActionListener
     private JComboBox prizeLevelComboBox;
     private JComboBox thirdPrizeCountComboBox;
     private JComboBox secondPrizeCountComboBox;
-    private JComboBox seatPrizeCountComboBox;
-    private JComboBox seatPrizeOptionComboBox;
+    private JComboBox seatPrizeFirstCountComboBox;
+    private JComboBox seatPrizeTableCountComboBox;
 
     //Define result showing elements
     private JPanel contentPanel;
@@ -109,6 +109,8 @@ public class LuckyDrawUI2014 extends JFrame implements ActionListener
     private LuckyDraw luckyDrawService;
 
 	private List<String[]> tempResultOfSeatDraw = new ArrayList<String[]>();
+
+	private boolean isSeatPrizeFirstRound = true;
 
     public LuckyDrawUI2014()
     {
@@ -159,8 +161,8 @@ public class LuckyDrawUI2014 extends JFrame implements ActionListener
         seatPrizeStopButton = new JButton( getStopButtonText());
         blankButton1 = new JButton();
         blankButton2 = new JButton();
-        seatPrizeCountComboBox = new SeatPrizeComboBox(this);
-        seatPrizeOptionComboBox = new SeatPrizeOptionComboBox(this);
+        seatPrizeFirstCountComboBox = new SeatPrizeFirstRoundComboBox(this);
+        seatPrizeTableCountComboBox = new SeatPrizeTableNumberComboBox(this);
 	}
 
     private void setButtonInitialState() {
@@ -188,8 +190,8 @@ public class LuckyDrawUI2014 extends JFrame implements ActionListener
         blankButton2.setVisible(false);
         seatPrizeDrawButton.setEnabled(false);
         seatPrizeStopButton.setEnabled(false);
-		seatPrizeCountComboBox.setEnabled(false);
-		seatPrizeOptionComboBox.setEnabled(false);
+		seatPrizeFirstCountComboBox.setEnabled(false);
+		seatPrizeTableCountComboBox.setEnabled(false);
 	}
 
     private void addButtonsToActionListener() {
@@ -212,8 +214,8 @@ public class LuckyDrawUI2014 extends JFrame implements ActionListener
 		exportToExcelButton.addActionListener( this );
 		seatPrizeStopButton.addActionListener(this);
 		seatPrizeDrawButton.addActionListener(this);
-		seatPrizeCountComboBox.addActionListener(this);
-		seatPrizeOptionComboBox.addActionListener(this);
+		seatPrizeFirstCountComboBox.addActionListener(this);
+		seatPrizeTableCountComboBox.addActionListener(this);
 	}
 
 	private void setButtonPanel() {
@@ -225,7 +227,7 @@ public class LuckyDrawUI2014 extends JFrame implements ActionListener
         buttonPanel.add( secondPrizeDrawButton );
         buttonPanel.add( secondPrizeCountComboBox, "span 1 2, growy" );
         buttonPanel.add(seatPrizeDrawButton);
-        buttonPanel.add(seatPrizeCountComboBox, "growx");
+        buttonPanel.add(seatPrizeFirstCountComboBox, "growx");
         buttonPanel.add( firstPrizeDrawButton, "wrap");
         //buttonPanel.add( consolationPrizeDrawButton );
 
@@ -235,7 +237,7 @@ public class LuckyDrawUI2014 extends JFrame implements ActionListener
         buttonPanel.add( thirdPrizeStopButton, "growx" );
         buttonPanel.add( secondPrizeStopButton, "growx" );
         buttonPanel.add(seatPrizeStopButton, "growx");
-        buttonPanel.add(seatPrizeOptionComboBox, "growx");
+        buttonPanel.add(seatPrizeTableCountComboBox, "growx");
         buttonPanel.add( firstPrizeStopButton, "growx, wrap" );
         //buttonPanel.add( consolationPrizeStopButton, "growx" );
         buttonPanel.add(blankButton1, "span 1 1, growx");
@@ -354,8 +356,13 @@ public class LuckyDrawUI2014 extends JFrame implements ActionListener
 	private void stopDrawingTheSeatPrize() {
 		// TODO Auto-generated method stub
     	timer.stop();
+
+    	if (true == isSeatPrizeFirstRound)
+    	{
+    		isSeatPrizeFirstRound = false;
+    	}
     	seatPrizeDrewCount++;
-    	allDrawnSeatPrize.addAll(tempResultOfSeatDraw);
+
         if(seatPrizeDrewCount == seatPrizeDrawCountMax )
         {
         	firstPrizeDrawButton.setEnabled(true);
@@ -369,11 +376,11 @@ public class LuckyDrawUI2014 extends JFrame implements ActionListener
 	}
 
 	private void startDrawingTheSeatPrize() {
-		// TODO Auto-generated method stub
 		replenishButton.setEnabled( false );
 		prizeLevelComboBox.setEnabled(false);
-		seatPrizeOptionComboBox.setEnabled(false);
-		seatPrizeCountComboBox.setEnabled(false);
+		seatPrizeTableCountComboBox.setEnabled(false);
+		seatPrizeFirstCountComboBox.setEnabled(false);
+
 		timer = new Timer( Constant.LABEL_REFRESH_PERIOD, new ActionListener()
         {
             public void actionPerformed( ActionEvent event )
@@ -381,14 +388,18 @@ public class LuckyDrawUI2014 extends JFrame implements ActionListener
             	List<String[]> drawResult = null;
             	int number = 0;
 
-        		if (seatPrizeLotteryOption.equals(Constant.LOTTERY_BY_TABLENUMPLUSSEATNUM))
-        		{
-        			number = Constant.DREW_NUMBER_EVERYTIME_OF_SEAT_PRIZE_BY_TABLE_AND_SEAT;
-        		}
-        		else if (seatPrizeLotteryOption.equals(Constant.LOTTERY_BY_SSEATNUM))
-        		{
-        			number = Constant.DREW_NUMBER_EVERYTIME_OF_SEAT_PRIZE_BY_SEAT;
-        		}
+            	removePreviousBufferedData(allDrawnSeatPrize, tempResultOfSeatDraw);
+
+            	if (true == isSeatPrizeFirstRound)
+            	{
+	        		number = Integer.parseInt((String)seatPrizeFirstCountComboBox.getSelectedItem());
+	        		seatPrizeLotteryOption = Constant.LOTTERY_BY_TABLENUMPLUSSEATNUM;
+            	}
+            	else
+            	{
+            		number = Constant.DREW_NUMBER_EVERYTIME_OF_SEAT_PRIZE_BY_TABLE;
+            		seatPrizeLotteryOption = Constant.LOTTERY_BY_TABLENUM;
+            	}
             	Object[][] data = new Object[number][2];
 
             	drawResult = getDrewNumberForSeatPrize(seatPrizeLotteryOption, number);
@@ -400,8 +411,11 @@ public class LuckyDrawUI2014 extends JFrame implements ActionListener
             	JTable table = new JTable(data,columnNames);
 
             	paintSeatPrizeTableToUI(table, seatPrizeLotteryOption);
+
+            	allDrawnSeatPrize.addAll(tempResultOfSeatDraw);
             }
         } );
+		tempResultOfSeatDraw.clear(); /*Make sure the temporary data is saved.*/
         timer.start();
         seatPrizeDrawButton.setEnabled( false );
         seatPrizeStopButton.setEnabled( true );
@@ -425,10 +439,10 @@ public class LuckyDrawUI2014 extends JFrame implements ActionListener
 		tempResultOfSeatDraw.clear();
 		for (Integer i = 0; i < number; i++)
 		{
+			Random random = new Random();
+			numbers = new String[]{"", ""};
 			if (wayOfCombination.equals(Constant.LOTTERY_BY_TABLENUMPLUSSEATNUM))
 			{
-				Random random = new Random();
-				numbers = new String[]{"", ""};
 				numbers[0] = String.valueOf(random.nextInt(56) + 1);
 				numbers[1] = String.valueOf(random.nextInt(11) + 1);
 
@@ -438,14 +452,9 @@ public class LuckyDrawUI2014 extends JFrame implements ActionListener
 					numbers[0] = String.valueOf(random.nextInt(56) + 1);
 					numbers[1] = String.valueOf(random.nextInt(11) + 1);
 				}
-
-				tempResultOfSeatDraw.add(numbers);
-				numbers = null;
 			}
 			else if (wayOfCombination.equals(Constant.LOTTERY_BY_SSEATNUM))
 			{
-				Random random = new Random();
-				numbers = new String[]{"", ""};
 				numbers[0] = "ALL";
 				numbers[1] = String.valueOf(random.nextInt(11) + 1);  //seat nubmer
 
@@ -455,10 +464,21 @@ public class LuckyDrawUI2014 extends JFrame implements ActionListener
 					numbers[0] = "ALL";
 					numbers[1] = String.valueOf(random.nextInt(11) + 1);  //seat nubmer
 				}
-
-				tempResultOfSeatDraw.add(numbers);
-				numbers = null;
 			}
+			else if (wayOfCombination.equals(Constant.LOTTERY_BY_TABLENUM))
+			{
+				numbers[0] = String.valueOf(random.nextInt(56) + 1);
+				numbers[1] = "ALL";  //seat nubmer
+
+				while(isStringsContainInList(tempResultOfSeatDraw, numbers)
+						|| isStringsContainInList(allDrawnSeatPrize, numbers))
+				{
+					numbers[0] = String.valueOf(random.nextInt(56) + 1);
+					numbers[1] = "ALL";  //seat nubmer
+				}
+			}
+			tempResultOfSeatDraw.add(numbers);
+			numbers = null;
 		}
 
 		return tempResultOfSeatDraw;
@@ -482,6 +502,14 @@ public class LuckyDrawUI2014 extends JFrame implements ActionListener
 		}
 
 		return false;
+	}
+
+	private void removePreviousBufferedData(List<String[]> stringsListDataSource, List<String[]> stringsListBufferedData)
+	{
+		for(String[] numbersDst:stringsListBufferedData)
+		{
+			stringsListDataSource.remove(numbersDst);
+		}
 	}
 
 	private void startDrawingTheForthPrize()
@@ -700,11 +728,11 @@ public class LuckyDrawUI2014 extends JFrame implements ActionListener
     	secondPrizeDrewCount++;
 		if(secondPrizeDrewCount == secondPrizeDrawCountMax)
 		{
-			seatPrizeDrawCountMax = Integer.parseInt((String)seatPrizeCountComboBox.getSelectedItem());
+			seatPrizeDrawCountMax = Integer.parseInt((String)seatPrizeTableCountComboBox.getSelectedItem()) + 1;
 			seatPrizeDrawButton.setText( getSeatDrawButtonText() );
 			seatPrizeDrawButton.setEnabled(true);
-			seatPrizeCountComboBox.setEnabled(true);
-			seatPrizeOptionComboBox.setEnabled(true);
+			seatPrizeFirstCountComboBox.setEnabled(true);
+			seatPrizeTableCountComboBox.setEnabled(true);
 			replenishButton.setEnabled( true );
 			prizeLevelComboBox.setEnabled(true);
 			replenishButton.setEnabled(true);
@@ -940,6 +968,10 @@ public class LuckyDrawUI2014 extends JFrame implements ActionListener
 	}
 
 	private void exportToExcel() {
+//		for(String[] numbers : allDrawnSeatPrize)
+//		{
+//			System.out.println(numbers[0] + "-----" + numbers[1]);
+//		}
 		luckyDrawService.generateExcel2014(allDrawnSeatPrize);
 	}
 
@@ -995,14 +1027,16 @@ public class LuckyDrawUI2014 extends JFrame implements ActionListener
 
     public void setSeatPrizeDrawState()
     {
-    	seatPrizeDrawCountMax = Integer.parseInt((String)seatPrizeCountComboBox.getSelectedItem());
-    	seatPrizeDrawButton.setText(getSeatDrawButtonText());
+    	//seatPrizeDrawCountMax = Integer.parseInt((String)seatPrizeFirstCountComboBox.getSelectedItem());
+    	//seatPrizeDrawButton.setText(getSeatDrawButtonText());
     	seatPrizeDrawButton.setEnabled(true);
     }
 
-    public void setSeatLotteryOption()
+    public void setSeatTableNumber()
     {
-    	seatPrizeLotteryOption = (String)seatPrizeOptionComboBox.getSelectedItem();
+    	seatPrizeDrawCountMax = Integer.parseInt((String)seatPrizeTableCountComboBox.getSelectedItem()) + 1;
+    	seatPrizeDrawButton.setText(getSeatDrawButtonText());
+    	//seatPrizeLotteryOption = (String)seatPrizeTableCountComboBox.getSelectedItem();
     }
 
     public void setTopPrizeButtonState(){
@@ -1284,10 +1318,11 @@ public class LuckyDrawUI2014 extends JFrame implements ActionListener
     private void paintSeatPrizeTableToUI(JTable table, String wayOfCombination) {
     	if (wayOfCombination.equals(Constant.LOTTERY_BY_TABLENUMPLUSSEATNUM))
 		{
-    		table.setRowHeight( 100 );
-    		table.setFont( new Font( "Dialog", Font.BOLD, 90 ) );
+    		table.setRowHeight( 60 );
+    		table.setFont( new Font( "Dialog", Font.BOLD, 50 ) );
 		}
-		else if (wayOfCombination.equals(Constant.LOTTERY_BY_SSEATNUM))
+		else if ((wayOfCombination.equals(Constant.LOTTERY_BY_SSEATNUM))
+				|| (wayOfCombination.equals(Constant.LOTTERY_BY_TABLENUM)))
 		{
 			table.setRowHeight( 400 );
     		table.setFont( new Font( "Dialog", Font.BOLD, 360 ) );

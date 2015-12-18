@@ -3,6 +3,7 @@ package com.luckydraw.ui;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -27,6 +28,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import net.miginfocom.swing.MigLayout;
 
 import com.luckydraw.enumset.PrizeLevelFlag;
+import com.luckydraw.listener.JUnifiedBgTable;
 import com.luckydraw.listener.PrizeLevelComboBox;
 import com.luckydraw.listener.SeatPrizeFirstRoundComboBox;
 import com.luckydraw.listener.SeatPrizeTableNumberComboBox;
@@ -111,6 +113,8 @@ public class LuckyDrawUI2014 extends JFrame implements ActionListener
 	private List<String[]> tempResultOfSeatDraw = new ArrayList<String[]>();
 
 	private boolean isSeatPrizeDrawnByTableNum = true;
+
+	private ImageIcon bgOfPanel;
 
     public LuckyDrawUI2014()
     {
@@ -250,12 +254,16 @@ public class LuckyDrawUI2014 extends JFrame implements ActionListener
 	}
 
 	private void setContentPanel() {
-		contentPanel = new JPanel( new BorderLayout() );
-        contentPanel.setBackground(Constant.BG_COLOR);
-        Icon icon = new ImageIcon( Constant.PATH_OF_BG_PICTURE);
-		JLabel myLabel = new JLabel( icon, JLabel.CENTER );
+		bgOfPanel = new ImageIcon( Constant.PATH_OF_BG_PICTURE);
+		contentPanel = new JPanel( new BorderLayout() ){
+			private static final long serialVersionUID = 1L;
+
+			public void paintComponent(Graphics g) {
+				g.drawImage(bgOfPanel.getImage(), 0, 0, contentPanel.getSize().width,
+						contentPanel.getSize().height, contentPanel);
+			}
+		};
 		contentPanel.removeAll();
-		contentPanel.add( myLabel, BorderLayout.CENTER );
 		contentPanel.repaint();
 		contentPanel.revalidate();
 	}
@@ -275,7 +283,7 @@ public class LuckyDrawUI2014 extends JFrame implements ActionListener
         setTitle(Constant.TITLE_OF_APPLICATION);
         setMinimumSize( new Dimension( 800, 600 ) );
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setBackground(Constant.BG_COLOR);
+        //setBackground(Constant.BG_COLOR);
 	}
 
 	private String getForthClassDrawButtonText(){
@@ -515,6 +523,7 @@ public class LuckyDrawUI2014 extends JFrame implements ActionListener
 
 	private void startDrawingTheForthPrize()
 	{
+		bgOfPanel = new ImageIcon( Constant.PATH_OF_DRAW_BG_PICTURE);
 		timer = new Timer( Constant.LABEL_REFRESH_PERIOD, new ActionListener()
         {
             public void actionPerformed( ActionEvent event )
@@ -1063,6 +1072,7 @@ public class LuckyDrawUI2014 extends JFrame implements ActionListener
     private void refreshContentPanel()
     {
         contentPanel.removeAll();
+        contentLabel.setOpaque(false);
         contentPanel.add( contentLabel, BorderLayout.CENTER );
         contentPanel.repaint();
         contentPanel.revalidate();
@@ -1329,10 +1339,15 @@ public class LuckyDrawUI2014 extends JFrame implements ActionListener
     		table.setFont( new Font( "Dialog", Font.BOLD, 360 ) );
 		}
         DefaultTableCellRenderer render = new DefaultTableCellRenderer();
+        table.setOpaque(false);
+        render.setOpaque(false);
         render.setHorizontalAlignment( JLabel.CENTER );
         render.setForeground(Constant.FG_COLOR);
         render.setBackground(Constant.BG_COLOR);
         table.setDefaultRenderer( Object.class, render );
+        table.setShowGrid(false);
+        table.setShowHorizontalLines(false);
+        table.setShowVerticalLines(false);
         table.enable( false );
         table.setBackground(Constant.BG_COLOR);
         contentPanel.removeAll();
@@ -1345,30 +1360,38 @@ public class LuckyDrawUI2014 extends JFrame implements ActionListener
     private void paintForthPrizeTableToUI(JTable table) {
 		table.setRowHeight( 625 );
         DefaultTableCellRenderer render = new DefaultTableCellRenderer();
+        table.setOpaque(false);
+        render.setOpaque(false);
         render.setHorizontalAlignment( JLabel.CENTER );
         render.setForeground(Constant.FG_COLOR);
-        render.setBackground(Constant.BG_COLOR);
+        //render.setBackground(Constant.BG_COLOR);
         table.setDefaultRenderer( Object.class, render );
         table.setFont( new Font( "Dialog", Font.BOLD, 500 ) );
+        table.setShowGrid(false);
+        table.setShowHorizontalLines(false);
+        table.setShowVerticalLines(false);
         table.enable( false );
-        table.setBackground(Constant.BG_COLOR);
+        //table.setBackground(Constant.BG_COLOR);
         contentPanel.removeAll();
         contentPanel.add( table, BorderLayout.CENTER );
         contentPanel.repaint();
         contentPanel.revalidate();
-        contentPanel.setBackground(Constant.BG_COLOR);
+        //contentPanel.setBackground(Constant.BG_COLOR);
 	}
 
     private void paintThirdPrizeTableToUI(JTable table) {
 		table.setRowHeight( 625 );
         DefaultTableCellRenderer render = new DefaultTableCellRenderer();
+        table.setOpaque(false);
+        render.setOpaque(false);
         render.setHorizontalAlignment( JLabel.CENTER );
         render.setForeground(Constant.FG_COLOR);
-        render.setBackground(Constant.BG_COLOR);
         table.setDefaultRenderer( Object.class, render );
         table.setFont( new Font( "Dialog", Font.BOLD, 500 ) );
+        table.setShowGrid(false);
+        table.setShowHorizontalLines(false);
+        table.setShowVerticalLines(false);
         table.enable( false );
-        table.setBackground(Constant.BG_COLOR);
         contentPanel.removeAll();
         contentPanel.add( table, BorderLayout.CENTER );
         contentPanel.repaint();

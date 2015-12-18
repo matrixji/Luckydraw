@@ -75,7 +75,8 @@ public class Constant {
 	public static final String TOOLTIP_OF_CONSOLATION_PRIZE_BUTTON = "特等奖还没补抽完";
 	public static final String TOOLTIP_OF_TOP_PRIZE_BUTTON = "一等奖还没补抽完";
 
-	public static final String PATH_OF_BG_PICTURE = "./resources/2014.png";
+	public static final String PATH_OF_BG_PICTURE = "./resources/2016.png";
+	public static final String PATH_OF_DRAW_BG_PICTURE = "./resources/draw.png";
 	public static final String PATH_OF_DB_CONFIGURATION = "./resources/config.properties";
 
 	//public static final Color BG_COLOR = new Color(188,210,238);

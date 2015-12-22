@@ -15,6 +15,7 @@ public class Constant {
 	public static final int DREW_NUMBER_EVERYTIME_OF_SEAT_PRIZE_BY_TABLE_AND_SEAT = 5;
 	public static final int DREW_NUMBER_EVERYTIME_OF_SEAT_PRIZE_BY_SEAT = 1;
 	public static final int DREW_NUMBER_EVERYTIME_OF_SEAT_PRIZE_BY_TABLE = 1;
+	public static final int SEAT_NUMBER_OF_EVERYTABLE = 11;
 	public static final int DREW_NUMBER_EVERYTIME_OF_SECOND_PRIZE = 5;
 	public static final int DREW_NUMBER_EVERYTIME_OF_THIRD_PRIZE = 5;
 	public static final int DREW_NUMBER_EVERYTIME_OF_FIRST_PRIZE = 1;
@@ -76,13 +77,14 @@ public class Constant {
 	public static final String TOOLTIP_OF_TOP_PRIZE_BUTTON = "一等奖还没补抽完";
 
 	public static final String PATH_OF_BG_PICTURE = "./resources/2016.png";
-	public static final String PATH_OF_DRAW_BG_PICTURE = "./resources/draw.png";
+	public static final String PATH_OF_DRAW_BG_PICTURE = "./resources/draw.jpg";
 	public static final String PATH_OF_DB_CONFIGURATION = "./resources/config.properties";
+	public static final String PATH_OF_PROGRAM_RESTORE = "./resources/restore.properties";
 
 	//public static final Color BG_COLOR = new Color(188,210,238);
 	public static final Color BG_COLOR = new Color(18,65,145);
 	//public static final Color FG_COLOR = new Color(245,106,22);
-	public static final Color FG_COLOR = new Color(0,201,255);
+	public static final Color FG_COLOR = new Color(232,180,32);
 	//new Color(74,132,202)
 	public static final Color HEAD_BG_COLOR = Color.RED;
 	public static final Color HEAD_FG_COLOR = Color.BLACK;
@@ -122,7 +124,35 @@ public class Constant {
 		"<html><center>哈,满血复活!</center></html>"
 	};
 
+	public static final String RESTORE_TYPE_SUFFIX_COUNT = "Count";
+	public static final String RESTORE_TYPE_SUFFIX_ENABLED_STATE = "EnabledState";
+	public static final String RESTORE_TYPE_SUFFIX_MAX_COUNT = "MaxCount";
+	public static final String RESTORE_TYPE_SUFFIX_CURRENT_COUNT = "CurrentCount";
 
+	public static final String JBUTTON_STATE_ENABLED = "Enabled";
+	public static final String JBUTTON_STATE_DISABLED = "Disabled";
 
+	public static final String RESTORE_TYPE_OF_RESET = "Reset";
+	public static final String RESTORE_TYPE_OF_PRIZE_FIRST = "FirstPrize";
+	public static final String RESTORE_TYPE_OF_PRIZE_SECOND = "SecondPrize";
+	public static final String RESTORE_TYPE_OF_PRIZE_THIRD = "ThirdPrize";
+	public static final String RESTORE_TYPE_OF_PRIZE_FOURTH = "FourthPrize";
+	public static final String RESTORE_TYPE_OF_PRIZE_SEAT = "SeatPrize";
+	public static final String RESTORE_TYPE_OF_PRIZE_SEAT_TABLE_NUM = "SeatPrizeTableNum";
+	public static final String RESTORE_TYPE_OF_PRIZE_SEAT_HYBRID = "SeatPrizeHybrid";
+	public static final String RESTORE_TYPE_OF_IS_SEAT_PRIZE_DRAW_BY_TABLENUM = "IsSeatPrizeDrawnByTableNum";
+	public static final String RESTORE_TYPE_OF_REPLENISH_PRIZE_LEVEL = "ReplenishPrizeLevel";
+	public static final String RESTORE_TYPE_OF_PRIZE_REPLENISH = "ReplenishPrize";
 
+	public static final String RESTORE_TYPE_OF_PRIZE_FIRST_STOP = "FirstPrizeStop";
+	public static final String RESTORE_TYPE_OF_PRIZE_SECOND_STOP = "SecondPrizeStop";
+	public static final String RESTORE_TYPE_OF_PRIZE_THIRD_STOP = "ThirdPrizeStop";
+	public static final String RESTORE_TYPE_OF_PRIZE_FOURTH_STOP = "FourthPrizeStop";
+	public static final String RESTORE_TYPE_OF_PRIZE_SEAT_STOP = "SeatPrizeStop";
+	public static final String RESTORE_TYPE_OF_PRIZE_REPLENISH_STOP = "ReplenishPrizeStop";
+
+	public static final String RESTORE_TYPE_OF_UI_COMPONENT_JBUTTON = "JButton";
+	public static final String RESTORE_TYPE_OF_UI_COMPONENT_JCOMBOBOX = "JComboBox";
+
+	public static final String RESTORE_TYPE_OF_PRIZE_SEAT_ALL_DRAWN_SNAPSHOT = "PrizeSeatAllDrawnSnapshot";
 }

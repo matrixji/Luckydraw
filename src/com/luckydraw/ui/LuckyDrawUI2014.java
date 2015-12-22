@@ -36,6 +36,11 @@ import com.luckydraw.listener.ThirdPrizeComboBox;
 import com.luckydraw.listener.SecondPrizeComboBox;
 import com.luckydraw.logic.LuckyDraw;
 import com.luckydraw.logic.LuckyDrawImpl;
+import com.luckydraw.resume.ResumeAllDrawnSeatPrize;
+import com.luckydraw.resume.ResumeJButton;
+import com.luckydraw.resume.ResumeJComboBox;
+import com.luckydraw.resume.ResumeLuckyDrawUI;
+import com.luckydraw.util.Config;
 import com.luckydraw.util.Constant;
 import com.luckydraw.util.Util;
 
@@ -80,7 +85,71 @@ public class LuckyDrawUI2014 extends JFrame implements ActionListener
 
     private int thirdPrizeDrawCountMax;
 
-    private int secondPrizeDrawCountMax;
+    public int getThirdPrizeDrawCountMax() {
+		return thirdPrizeDrawCountMax;
+	}
+
+	public void setThirdPrizeDrawCountMax(int thirdPrizeDrawCountMax) {
+		this.thirdPrizeDrawCountMax = thirdPrizeDrawCountMax;
+	}
+
+	public int getSecondPrizeDrawCountMax() {
+		return secondPrizeDrawCountMax;
+	}
+
+	public void setSecondPrizeDrawCountMax(int secondPrizeDrawCountMax) {
+		this.secondPrizeDrawCountMax = secondPrizeDrawCountMax;
+	}
+
+	public int getSeatPrizeDrawCountMax() {
+		return seatPrizeDrawCountMax;
+	}
+
+	public void setSeatPrizeDrawCountMax(int seatPrizeDrawCountMax) {
+		this.seatPrizeDrawCountMax = seatPrizeDrawCountMax;
+	}
+
+	public int getForthPrizeDrewCount() {
+		return forthPrizeDrewCount;
+	}
+
+	public void setForthPrizeDrewCount(int forthPrizeDrewCount) {
+		this.forthPrizeDrewCount = forthPrizeDrewCount;
+	}
+
+	public int getThirdPrizeDrewCount() {
+		return thirdPrizeDrewCount;
+	}
+
+	public void setThirdPrizeDrewCount(int thirdPrizeDrewCount) {
+		this.thirdPrizeDrewCount = thirdPrizeDrewCount;
+	}
+
+	public int getSecondPrizeDrewCount() {
+		return secondPrizeDrewCount;
+	}
+
+	public void setSecondPrizeDrewCount(int secondPrizeDrewCount) {
+		this.secondPrizeDrewCount = secondPrizeDrewCount;
+	}
+
+	public int getFirstPrizeDrewCount() {
+		return firstPrizeDrewCount;
+	}
+
+	public void setFirstPrizeDrewCount(int firstPrizeDrewCount) {
+		this.firstPrizeDrewCount = firstPrizeDrewCount;
+	}
+
+	public int getSeatPrizeDrewCount() {
+		return seatPrizeDrewCount;
+	}
+
+	public void setSeatPrizeDrewCount(int seatPrizeDrewCount) {
+		this.seatPrizeDrewCount = seatPrizeDrewCount;
+	}
+
+	private int secondPrizeDrawCountMax;
 
     private int seatPrizeDrawCountMax;
 
@@ -108,11 +177,10 @@ public class LuckyDrawUI2014 extends JFrame implements ActionListener
     private List<Integer> allDrawnSecondPrizeNSNIds = new ArrayList<Integer>();
     private List<Integer> allDrawnThirdPrizeNSNIds = new ArrayList<Integer>();
     private List<String[]> allDrawnSeatPrize = new ArrayList<String[]>();
+    private List<String[]> exclusionOfSeatPrize = new ArrayList<String[]>();
     private LuckyDraw luckyDrawService;
 
 	private List<String[]> tempResultOfSeatDraw = new ArrayList<String[]>();
-
-	private boolean isSeatPrizeDrawnByTableNum = true;
 
 	private ImageIcon bgOfPanel;
 
@@ -138,9 +206,77 @@ public class LuckyDrawUI2014 extends JFrame implements ActionListener
         setContentPanel();
         setContentLabel();
         initMainFrame();
+        readExclusionOfSeatPrize();
+        resumeUI();
     }
 
-    private void createButtons() {
+    private void readExclusionOfSeatPrize() {
+		// TODO Auto-generated method stub
+    	Config config = new Config();
+
+    	String exclusion = config.getProperties().getProperty( "seatprize.exclusion" );
+
+    	String[] strarray=exclusion.split("#");
+    	for (int i = 0; i < strarray.length; i++)
+    	{
+    		exclusionOfSeatPrize.add(strarray[i].split("-"));
+    	}
+	}
+
+    private boolean isInExclusionOfSeatPrizeForSeatPrize(String[] result) {
+		for(String[] numbers:exclusionOfSeatPrize)
+		{
+			if (true == numbers[0].equals(result[0])
+					&& ( true == numbers[1].equals(result[1])
+							|| true == numbers[1].equals("ALL")))
+			{
+				return true;
+			}
+		}
+
+		return false;
+    }
+
+	private void resumeUI() {
+		// TODO Auto-generated method stub
+    	/*恢复所有的按钮状态*/
+    	new ResumeJButton(resetButton, Constant.RESTORE_TYPE_OF_RESET + Constant.RESTORE_TYPE_OF_UI_COMPONENT_JBUTTON, "").resume();
+    	new ResumeJButton(forthPrizeDrawButton, Constant.RESTORE_TYPE_OF_PRIZE_FOURTH + Constant.RESTORE_TYPE_OF_UI_COMPONENT_JBUTTON, "").resume();
+    	new ResumeJButton(forthPrizeStopButton, Constant.RESTORE_TYPE_OF_PRIZE_FOURTH_STOP + Constant.RESTORE_TYPE_OF_UI_COMPONENT_JBUTTON, "").resume();
+    	new ResumeJButton(thirdPrizeDrawButton, Constant.RESTORE_TYPE_OF_PRIZE_THIRD + Constant.RESTORE_TYPE_OF_UI_COMPONENT_JBUTTON, "").resume();
+    	new ResumeJButton(thirdPrizeStopButton, Constant.RESTORE_TYPE_OF_PRIZE_THIRD_STOP + Constant.RESTORE_TYPE_OF_UI_COMPONENT_JBUTTON, "").resume();
+    	new ResumeJButton(secondPrizeDrawButton, Constant.RESTORE_TYPE_OF_PRIZE_SECOND + Constant.RESTORE_TYPE_OF_UI_COMPONENT_JBUTTON, "").resume();
+    	new ResumeJButton(secondPrizeStopButton, Constant.RESTORE_TYPE_OF_PRIZE_SECOND_STOP + Constant.RESTORE_TYPE_OF_UI_COMPONENT_JBUTTON, "").resume();
+    	new ResumeJButton(firstPrizeDrawButton, Constant.RESTORE_TYPE_OF_PRIZE_FIRST + Constant.RESTORE_TYPE_OF_UI_COMPONENT_JBUTTON, "").resume();
+    	new ResumeJButton(firstPrizeStopButton, Constant.RESTORE_TYPE_OF_PRIZE_FIRST_STOP + Constant.RESTORE_TYPE_OF_UI_COMPONENT_JBUTTON, "").resume();
+    	new ResumeJButton(seatPrizeDrawButton, Constant.RESTORE_TYPE_OF_PRIZE_SEAT + Constant.RESTORE_TYPE_OF_UI_COMPONENT_JBUTTON, "").resume();
+    	new ResumeJButton(seatPrizeStopButton, Constant.RESTORE_TYPE_OF_PRIZE_SEAT_STOP + Constant.RESTORE_TYPE_OF_UI_COMPONENT_JBUTTON, "").resume();
+    	new ResumeJButton(replenishButton, Constant.RESTORE_TYPE_OF_PRIZE_REPLENISH + Constant.RESTORE_TYPE_OF_UI_COMPONENT_JBUTTON, "").resume();
+    	new ResumeJButton(replenishStopButton, Constant.RESTORE_TYPE_OF_PRIZE_REPLENISH_STOP + Constant.RESTORE_TYPE_OF_UI_COMPONENT_JBUTTON, "").resume();
+
+    	/*恢复所有的选择框*/
+    	new ResumeJComboBox(prizeLevelComboBox, Constant.RESTORE_TYPE_OF_REPLENISH_PRIZE_LEVEL + Constant.RESTORE_TYPE_OF_UI_COMPONENT_JCOMBOBOX, "").resume();
+    	new ResumeJComboBox(secondPrizeCountComboBox, Constant.RESTORE_TYPE_OF_PRIZE_SECOND + Constant.RESTORE_TYPE_OF_UI_COMPONENT_JCOMBOBOX, "").resume();
+    	new ResumeJComboBox(seatPrizeFirstCountComboBox, Constant.RESTORE_TYPE_OF_PRIZE_SEAT_HYBRID + Constant.RESTORE_TYPE_OF_UI_COMPONENT_JCOMBOBOX, "").resume();
+    	new ResumeJComboBox(seatPrizeTableCountComboBox, Constant.RESTORE_TYPE_OF_PRIZE_SEAT_TABLE_NUM + Constant.RESTORE_TYPE_OF_UI_COMPONENT_JCOMBOBOX, "").resume();
+
+    	/*恢复关键数据*/
+    	new ResumeLuckyDrawUI(this, Constant.RESTORE_TYPE_OF_PRIZE_FOURTH).resume();
+    	forthPrizeDrawButton.setText( getForthClassDrawButtonText() );
+    	new ResumeLuckyDrawUI(this, Constant.RESTORE_TYPE_OF_PRIZE_THIRD).resume();
+    	thirdPrizeDrawButton.setText( getThirdClassDrawButtonText() );
+    	new ResumeLuckyDrawUI(this, Constant.RESTORE_TYPE_OF_PRIZE_SECOND).resume();
+    	secondPrizeDrawButton.setText( getSecondClassDrawButtonText() );
+    	new ResumeLuckyDrawUI(this, Constant.RESTORE_TYPE_OF_PRIZE_FIRST).resume();
+    	firstPrizeDrawButton.setText( getFirstClassDrawButtonText() );
+    	new ResumeLuckyDrawUI(this, Constant.RESTORE_TYPE_OF_PRIZE_SEAT).resume();
+    	seatPrizeDrawButton.setText( getSeatDrawButtonText() );
+
+    	/*恢复惊喜座位奖*/
+    	new ResumeAllDrawnSeatPrize(allDrawnSeatPrize).resume();
+	}
+
+	private void createButtons() {
 		resetButton = new JButton( Constant.BUTTON_TEXT_OF_RESET );
 		forthPrizeDrawButton = new JButton(getForthClassDrawButtonText());
 		thirdPrizeDrawButton = new JButton(getThirdClassDrawButtonText() );
@@ -361,76 +497,6 @@ public class LuckyDrawUI2014 extends JFrame implements ActionListener
             exportToExcel();
     }
 
-	private void stopDrawingTheSeatPrize() {
-		// TODO Auto-generated method stub
-    	timer.stop();
-
-    	seatPrizeDrewCount++;
-
-    	if (seatPrizeDrewCount == Integer.parseInt((String)seatPrizeTableCountComboBox.getSelectedItem()))
-    	{
-    		isSeatPrizeDrawnByTableNum = false;
-    	}
-
-        if(seatPrizeDrewCount == seatPrizeDrawCountMax )
-        {
-        	firstPrizeDrawButton.setEnabled(true);
-        }
-        else
-        {
-        	seatPrizeDrawButton.setEnabled( true );
-        }
-        seatPrizeDrawButton.setText( getSeatDrawButtonText() );
-        seatPrizeStopButton.setEnabled( false );
-	}
-
-	private void startDrawingTheSeatPrize() {
-		replenishButton.setEnabled( false );
-		prizeLevelComboBox.setEnabled(false);
-		seatPrizeTableCountComboBox.setEnabled(false);
-		seatPrizeFirstCountComboBox.setEnabled(false);
-
-		timer = new Timer( Constant.LABEL_REFRESH_PERIOD, new ActionListener()
-        {
-            public void actionPerformed( ActionEvent event )
-            {
-            	List<String[]> drawResult = null;
-            	int number = 0;
-
-            	removePreviousBufferedData(allDrawnSeatPrize, tempResultOfSeatDraw);
-
-            	if (false == isSeatPrizeDrawnByTableNum)
-            	{
-	        		number = Integer.parseInt((String)seatPrizeFirstCountComboBox.getSelectedItem());
-	        		seatPrizeLotteryOption = Constant.LOTTERY_BY_TABLENUMPLUSSEATNUM;
-            	}
-            	else
-            	{
-            		number = Constant.DREW_NUMBER_EVERYTIME_OF_SEAT_PRIZE_BY_TABLE;
-            		seatPrizeLotteryOption = Constant.LOTTERY_BY_TABLENUM;
-            	}
-            	Object[][] data = new Object[number][2];
-
-            	drawResult = getDrewNumberForSeatPrize(seatPrizeLotteryOption, number);
-
-            	putListIntoObjects(drawResult, data);
-
-            	Object[] columnNames = {"桌号","座位号"};
-
-            	JTable table = new JTable(data,columnNames);
-
-            	paintSeatPrizeTableToUI(table, seatPrizeLotteryOption);
-
-            	allDrawnSeatPrize.addAll(tempResultOfSeatDraw);
-            }
-        } );
-		tempResultOfSeatDraw.clear(); /*Make sure the temporary data is saved.*/
-        timer.start();
-        seatPrizeDrawButton.setEnabled( false );
-        seatPrizeStopButton.setEnabled( true );
-        getRootPane().setDefaultButton( seatPrizeStopButton );
-	}
-
 	protected void putListIntoObjects(List<String[]> drawResult, Object[][] data) {
 		// TODO Auto-generated method stub
 		int i = 0;
@@ -456,7 +522,8 @@ public class LuckyDrawUI2014 extends JFrame implements ActionListener
 				numbers[1] = String.valueOf(random.nextInt(11) + 1);
 
 				while(isStringsContainInList(tempResultOfSeatDraw, numbers)
-						|| isStringsContainInList(allDrawnSeatPrize, numbers))
+						|| isStringsContainInList(allDrawnSeatPrize, numbers)
+						|| isInExclusionOfSeatPrizeForSeatPrize(numbers))
 				{
 					numbers[0] = String.valueOf(random.nextInt(56) + 1);
 					numbers[1] = String.valueOf(random.nextInt(11) + 1);
@@ -468,7 +535,8 @@ public class LuckyDrawUI2014 extends JFrame implements ActionListener
 				numbers[1] = String.valueOf(random.nextInt(11) + 1);  //seat nubmer
 
 				while(isStringsContainInList(tempResultOfSeatDraw, numbers)
-						|| isStringsContainInList(allDrawnSeatPrize, numbers))
+						|| isStringsContainInList(allDrawnSeatPrize, numbers)
+						|| isInExclusionOfSeatPrizeForSeatPrize(numbers))
 				{
 					numbers[0] = "ALL";
 					numbers[1] = String.valueOf(random.nextInt(11) + 1);  //seat nubmer
@@ -480,7 +548,8 @@ public class LuckyDrawUI2014 extends JFrame implements ActionListener
 				numbers[1] = "ALL";  //seat nubmer
 
 				while(isStringsContainInList(tempResultOfSeatDraw, numbers)
-						|| isStringsContainInList(allDrawnSeatPrize, numbers))
+						|| isStringsContainInList(allDrawnSeatPrize, numbers)
+						|| isInExclusionOfSeatPrizeForSeatPrize(numbers))
 				{
 					numbers[0] = String.valueOf(random.nextInt(56) + 1);
 					numbers[1] = "ALL";  //seat nubmer
@@ -497,6 +566,17 @@ public class LuckyDrawUI2014 extends JFrame implements ActionListener
 		luckyDrawService.reset();
 		forthPrizeDrawButton.setEnabled( true );
 		resetButton.setEnabled( false );
+
+		/*软件异常重启后不需要再reset，恢复所有数据*/
+		new ResumeJButton(forthPrizeDrawButton, Constant.RESTORE_TYPE_OF_PRIZE_FOURTH + Constant.RESTORE_TYPE_OF_UI_COMPONENT_JBUTTON, Constant.JBUTTON_STATE_ENABLED).snapshot();
+		new ResumeJButton(resetButton, Constant.RESTORE_TYPE_OF_RESET + Constant.RESTORE_TYPE_OF_UI_COMPONENT_JBUTTON, Constant.JBUTTON_STATE_DISABLED).snapshot();
+
+		/*备份关键数据*/
+		new ResumeLuckyDrawUI(this, Constant.RESTORE_TYPE_OF_PRIZE_FOURTH).snapshot();
+    	new ResumeLuckyDrawUI(this, Constant.RESTORE_TYPE_OF_PRIZE_THIRD).snapshot();
+    	new ResumeLuckyDrawUI(this, Constant.RESTORE_TYPE_OF_PRIZE_SECOND).snapshot();
+    	new ResumeLuckyDrawUI(this, Constant.RESTORE_TYPE_OF_PRIZE_FIRST).snapshot();
+    	new ResumeLuckyDrawUI(this, Constant.RESTORE_TYPE_OF_PRIZE_SEAT).snapshot();
 	}
 
 	private boolean isStringsContainInList(List<String[]> stringsList, String[] numberOfSeatPlusTable)
@@ -542,6 +622,9 @@ public class LuckyDrawUI2014 extends JFrame implements ActionListener
         timer.start();
         forthPrizeDrawButton.setEnabled( false );
         forthPrizeStopButton.setEnabled( true );
+        /*备份前面的状态*/
+        new ResumeJButton(forthPrizeDrawButton, Constant.RESTORE_TYPE_OF_PRIZE_FOURTH + Constant.RESTORE_TYPE_OF_UI_COMPONENT_JBUTTON, Constant.JBUTTON_STATE_ENABLED).snapshot();
+        new ResumeJButton(forthPrizeStopButton, Constant.RESTORE_TYPE_OF_PRIZE_FOURTH_STOP + Constant.RESTORE_TYPE_OF_UI_COMPONENT_JBUTTON, Constant.JBUTTON_STATE_DISABLED).snapshot();
         getRootPane().setDefaultButton( forthPrizeStopButton );
 	}
 
@@ -554,6 +637,8 @@ public class LuckyDrawUI2014 extends JFrame implements ActionListener
         	thirdPrizeDrawButton.setText(getThirdClassDrawButtonText());
         	thirdPrizeDrawButton.setEnabled(true);
         	thirdPrizeCountComboBox.setEnabled( true );
+        	new ResumeJButton(forthPrizeDrawButton, Constant.RESTORE_TYPE_OF_PRIZE_FOURTH + Constant.RESTORE_TYPE_OF_UI_COMPONENT_JBUTTON, Constant.JBUTTON_STATE_DISABLED).snapshot();
+        	new ResumeJButton(thirdPrizeDrawButton, Constant.RESTORE_TYPE_OF_PRIZE_THIRD + Constant.RESTORE_TYPE_OF_UI_COMPONENT_JBUTTON, Constant.JBUTTON_STATE_ENABLED).snapshot();
         }
         else
         {
@@ -563,9 +648,11 @@ public class LuckyDrawUI2014 extends JFrame implements ActionListener
         forthPrizeStopButton.setEnabled( false );
         forthPrizeEndNumbers.add(drawnEndNumber);
         luckyDrawService.saveSuffixWith( PrizeLevelFlag.FORTH_PRIZE.getValue(), drawnEndNumber);
+        new ResumeLuckyDrawUI(this, Constant.RESTORE_TYPE_OF_PRIZE_FOURTH).snapshot();
 	}
 
 	private void startDrawingTheThirdPrize(){
+		bgOfPanel = new ImageIcon( Constant.PATH_OF_DRAW_BG_PICTURE);
 
 		timer = new Timer( Constant.LABEL_REFRESH_PERIOD, new ActionListener()
         {
@@ -585,6 +672,9 @@ public class LuckyDrawUI2014 extends JFrame implements ActionListener
         timer.start();
         thirdPrizeDrawButton.setEnabled( false );
         thirdPrizeStopButton.setEnabled( true );
+        /*备份前面的状态*/
+        new ResumeJButton(thirdPrizeDrawButton, Constant.RESTORE_TYPE_OF_PRIZE_THIRD + Constant.RESTORE_TYPE_OF_UI_COMPONENT_JBUTTON, Constant.JBUTTON_STATE_ENABLED).snapshot();
+        new ResumeJButton(thirdPrizeStopButton, Constant.RESTORE_TYPE_OF_PRIZE_THIRD_STOP + Constant.RESTORE_TYPE_OF_UI_COMPONENT_JBUTTON, Constant.JBUTTON_STATE_DISABLED).snapshot();
         getRootPane().setDefaultButton( thirdPrizeStopButton );
 
 		/*
@@ -618,6 +708,9 @@ public class LuckyDrawUI2014 extends JFrame implements ActionListener
         	secondPrizeDrawButton.setText(getSecondClassDrawButtonText());
 	    	secondPrizeDrawButton.setEnabled(true);
 	    	secondPrizeCountComboBox.setEnabled( true );
+	    	new ResumeJComboBox(secondPrizeCountComboBox, Constant.RESTORE_TYPE_OF_PRIZE_SECOND + Constant.RESTORE_TYPE_OF_UI_COMPONENT_JCOMBOBOX, Constant.JBUTTON_STATE_ENABLED).snapshot();
+	    	new ResumeJButton(thirdPrizeDrawButton, Constant.RESTORE_TYPE_OF_PRIZE_THIRD + Constant.RESTORE_TYPE_OF_UI_COMPONENT_JBUTTON, Constant.JBUTTON_STATE_DISABLED).snapshot();
+	    	new ResumeJButton(secondPrizeDrawButton, Constant.RESTORE_TYPE_OF_PRIZE_SECOND + Constant.RESTORE_TYPE_OF_UI_COMPONENT_JBUTTON, Constant.JBUTTON_STATE_ENABLED).snapshot();
         }
         else
         {
@@ -627,7 +720,7 @@ public class LuckyDrawUI2014 extends JFrame implements ActionListener
         thirdPrizeStopButton.setEnabled( false );
         thirdPrizeEndNumbers.add(drawnEndNumber);
         luckyDrawService.saveSuffixWith( PrizeLevelFlag.THIRD_PRIZE.getValue(), drawnEndNumber);
-
+        new ResumeLuckyDrawUI(this, Constant.RESTORE_TYPE_OF_PRIZE_THIRD).snapshot();
     	/*
     	timer.stop();
     	thirdPrizeDrewCount++;
@@ -691,7 +784,9 @@ public class LuckyDrawUI2014 extends JFrame implements ActionListener
 		getRootPane().setDefaultButton( secondPrizeStopButton );
 		*/
 
+    	bgOfPanel = new ImageIcon( Constant.PATH_OF_DRAW_BG_PICTURE);
     	secondPrizeCountComboBox.setEnabled(false);
+    	new ResumeJComboBox(secondPrizeCountComboBox, Constant.RESTORE_TYPE_OF_PRIZE_SECOND + Constant.RESTORE_TYPE_OF_UI_COMPONENT_JCOMBOBOX, Constant.JBUTTON_STATE_DISABLED).snapshot();
     	refreshContentPanel();
 		luckyDrawService.cacheData();
 		timer = new Timer( Constant.LABEL_REFRESH_PERIOD, new ActionListener()
@@ -709,7 +804,7 @@ public class LuckyDrawUI2014 extends JFrame implements ActionListener
 
 		        result = result + "</table></html>";
 
-		        contentLabel.setFont( new Font( "Dialog", 1, 60 ) );
+		        contentLabel.setFont( new Font( "Dialog", 1, 80 ) );
 		        contentLabel.setText(result);
 		    }
 		} );
@@ -718,6 +813,8 @@ public class LuckyDrawUI2014 extends JFrame implements ActionListener
 		secondPrizeStopButton.setEnabled( true );
 		prizeLevelComboBox.setEnabled(false);
 		getRootPane().setDefaultButton( secondPrizeStopButton );
+		new ResumeJButton(secondPrizeDrawButton, Constant.RESTORE_TYPE_OF_PRIZE_SECOND + Constant.RESTORE_TYPE_OF_UI_COMPONENT_JBUTTON, Constant.JBUTTON_STATE_ENABLED).snapshot();
+    	new ResumeJButton(secondPrizeStopButton, Constant.RESTORE_TYPE_OF_PRIZE_SECOND_STOP + Constant.RESTORE_TYPE_OF_UI_COMPONENT_JBUTTON, Constant.JBUTTON_STATE_DISABLED).snapshot();
     }
 
     private void stopDrawingTheSecondPrize(){
@@ -745,7 +842,13 @@ public class LuckyDrawUI2014 extends JFrame implements ActionListener
 			seatPrizeTableCountComboBox.setEnabled(true);
 			replenishButton.setEnabled( true );
 			prizeLevelComboBox.setEnabled(true);
-			replenishButton.setEnabled(true);
+
+			new ResumeJButton(secondPrizeDrawButton, Constant.RESTORE_TYPE_OF_PRIZE_SECOND + Constant.RESTORE_TYPE_OF_UI_COMPONENT_JBUTTON, Constant.JBUTTON_STATE_DISABLED).snapshot();
+			new ResumeJButton(seatPrizeDrawButton, Constant.RESTORE_TYPE_OF_PRIZE_SEAT + Constant.RESTORE_TYPE_OF_UI_COMPONENT_JBUTTON, Constant.JBUTTON_STATE_ENABLED).snapshot();
+			new ResumeJComboBox(prizeLevelComboBox, Constant.RESTORE_TYPE_OF_REPLENISH_PRIZE_LEVEL + Constant.RESTORE_TYPE_OF_UI_COMPONENT_JCOMBOBOX, Constant.JBUTTON_STATE_ENABLED).snapshot();
+			new ResumeJComboBox(seatPrizeFirstCountComboBox, Constant.RESTORE_TYPE_OF_PRIZE_SEAT_HYBRID + Constant.RESTORE_TYPE_OF_UI_COMPONENT_JCOMBOBOX, Constant.JBUTTON_STATE_ENABLED).snapshot();
+	    	new ResumeJComboBox(seatPrizeTableCountComboBox, Constant.RESTORE_TYPE_OF_PRIZE_SEAT_TABLE_NUM + Constant.RESTORE_TYPE_OF_UI_COMPONENT_JCOMBOBOX, Constant.JBUTTON_STATE_ENABLED).snapshot();
+	    	new ResumeJButton(replenishButton, Constant.RESTORE_TYPE_OF_PRIZE_REPLENISH + Constant.RESTORE_TYPE_OF_UI_COMPONENT_JBUTTON, Constant.JBUTTON_STATE_ENABLED).snapshot();
 		}
 		else
 		{
@@ -760,7 +863,86 @@ public class LuckyDrawUI2014 extends JFrame implements ActionListener
 			allDrawnSecondPrizeCache.put( nsnid, tempResultsForEveryDrawing.get( nsnid ) );
 		}
 		luckyDrawService.saveWithPrizeLevelAndIdSet(PrizeLevelFlag.SECOND_PRIZE.getValue(),tempResultsForEveryDrawing.keySet() );
+		new ResumeLuckyDrawUI(this, Constant.RESTORE_TYPE_OF_PRIZE_SECOND).snapshot();
     }
+
+	private void startDrawingTheSeatPrize() {
+		bgOfPanel = new ImageIcon( Constant.PATH_OF_DRAW_BG_PICTURE);
+		replenishButton.setEnabled( false );
+		prizeLevelComboBox.setEnabled(false);
+		seatPrizeTableCountComboBox.setEnabled(false);
+		seatPrizeFirstCountComboBox.setEnabled(false);
+		new ResumeJComboBox(prizeLevelComboBox, Constant.RESTORE_TYPE_OF_REPLENISH_PRIZE_LEVEL + Constant.RESTORE_TYPE_OF_UI_COMPONENT_JCOMBOBOX, Constant.JBUTTON_STATE_DISABLED).snapshot();
+		new ResumeJComboBox(seatPrizeFirstCountComboBox, Constant.RESTORE_TYPE_OF_PRIZE_SEAT_HYBRID + Constant.RESTORE_TYPE_OF_UI_COMPONENT_JCOMBOBOX, Constant.JBUTTON_STATE_ENABLED).snapshot();
+    	new ResumeJComboBox(seatPrizeTableCountComboBox, Constant.RESTORE_TYPE_OF_PRIZE_SEAT_TABLE_NUM + Constant.RESTORE_TYPE_OF_UI_COMPONENT_JCOMBOBOX, Constant.JBUTTON_STATE_DISABLED).snapshot();
+    	new ResumeJButton(replenishButton, Constant.RESTORE_TYPE_OF_PRIZE_REPLENISH + Constant.RESTORE_TYPE_OF_UI_COMPONENT_JBUTTON, Constant.JBUTTON_STATE_DISABLED).snapshot();
+
+		timer = new Timer( Constant.LABEL_REFRESH_PERIOD, new ActionListener()
+        {
+            public void actionPerformed( ActionEvent event )
+            {
+            	List<String[]> drawResult = null;
+            	int number = 0;
+
+            	removePreviousBufferedData(allDrawnSeatPrize, tempResultOfSeatDraw);
+
+            	if (seatPrizeDrewCount == (seatPrizeDrawCountMax - 1))
+            	{
+	        		number = Integer.parseInt((String)seatPrizeFirstCountComboBox.getSelectedItem());
+	        		seatPrizeLotteryOption = Constant.LOTTERY_BY_TABLENUMPLUSSEATNUM;
+            	}
+            	else
+            	{
+            		number = Constant.DREW_NUMBER_EVERYTIME_OF_SEAT_PRIZE_BY_TABLE;
+            		seatPrizeLotteryOption = Constant.LOTTERY_BY_TABLENUM;
+            	}
+            	Object[][] data = new Object[number][2];
+
+            	drawResult = getDrewNumberForSeatPrize(seatPrizeLotteryOption, number);
+
+            	putListIntoObjects(drawResult, data);
+
+            	Object[] columnNames = {"桌号","座位号"};
+
+            	JTable table = new JTable(data,columnNames);
+
+            	paintSeatPrizeTableToUI(table, seatPrizeLotteryOption);
+
+            	allDrawnSeatPrize.addAll(tempResultOfSeatDraw);
+            	new ResumeAllDrawnSeatPrize(allDrawnSeatPrize).snapshot();
+            }
+        } );
+		tempResultOfSeatDraw.clear(); /*Make sure the temporary data is saved.*/
+        timer.start();
+        seatPrizeDrawButton.setEnabled( false );
+        seatPrizeStopButton.setEnabled( true );
+        new ResumeJButton(seatPrizeDrawButton, Constant.RESTORE_TYPE_OF_PRIZE_SEAT + Constant.RESTORE_TYPE_OF_UI_COMPONENT_JBUTTON, Constant.JBUTTON_STATE_ENABLED).snapshot();
+    	new ResumeJButton(seatPrizeStopButton, Constant.RESTORE_TYPE_OF_PRIZE_SEAT_STOP + Constant.RESTORE_TYPE_OF_UI_COMPONENT_JBUTTON, Constant.JBUTTON_STATE_DISABLED).snapshot();
+    	getRootPane().setDefaultButton( seatPrizeStopButton );
+    	new ResumeLuckyDrawUI(this, Constant.RESTORE_TYPE_OF_PRIZE_SEAT).snapshot();
+	}
+
+	private void stopDrawingTheSeatPrize() {
+		// TODO Auto-generated method stub
+    	timer.stop();
+
+    	new ResumeJComboBox(seatPrizeFirstCountComboBox, Constant.RESTORE_TYPE_OF_PRIZE_SEAT_HYBRID + Constant.RESTORE_TYPE_OF_UI_COMPONENT_JCOMBOBOX, Constant.JBUTTON_STATE_DISABLED).snapshot();
+    	seatPrizeDrewCount++;
+
+        if(seatPrizeDrewCount == seatPrizeDrawCountMax )
+        {
+        	firstPrizeDrawButton.setEnabled(true);
+        	new ResumeJButton(seatPrizeDrawButton, Constant.RESTORE_TYPE_OF_PRIZE_SEAT + Constant.RESTORE_TYPE_OF_UI_COMPONENT_JBUTTON, Constant.JBUTTON_STATE_DISABLED).snapshot();
+        	new ResumeJButton(firstPrizeDrawButton, Constant.RESTORE_TYPE_OF_PRIZE_FIRST + Constant.RESTORE_TYPE_OF_UI_COMPONENT_JBUTTON, Constant.JBUTTON_STATE_ENABLED).snapshot();
+        }
+        else
+        {
+        	seatPrizeDrawButton.setEnabled( true );
+        }
+        seatPrizeDrawButton.setText( getSeatDrawButtonText() );
+        seatPrizeStopButton.setEnabled( false );
+        new ResumeLuckyDrawUI(this, Constant.RESTORE_TYPE_OF_PRIZE_SEAT).snapshot();
+	}
 
     private void startDrawingTheFirstPrize() {
     	/*
@@ -782,6 +964,7 @@ public class LuckyDrawUI2014 extends JFrame implements ActionListener
 		getRootPane().setDefaultButton( firstPrizeStopButton );
 		*/
 
+    	bgOfPanel = new ImageIcon( Constant.PATH_OF_DRAW_BG_PICTURE);
     	replenishButton.setEnabled( false );
 		prizeLevelComboBox.setEnabled(false);
     	refreshContentPanel();
@@ -802,6 +985,8 @@ public class LuckyDrawUI2014 extends JFrame implements ActionListener
 		firstPrizeDrawButton.setEnabled( false );
 		firstPrizeStopButton.setEnabled( true );
 		prizeLevelComboBox.setEnabled(false);
+		new ResumeJButton(firstPrizeDrawButton, Constant.RESTORE_TYPE_OF_PRIZE_FIRST + Constant.RESTORE_TYPE_OF_UI_COMPONENT_JBUTTON, Constant.JBUTTON_STATE_ENABLED).snapshot();
+    	new ResumeJButton(firstPrizeStopButton, Constant.RESTORE_TYPE_OF_PRIZE_FIRST_STOP + Constant.RESTORE_TYPE_OF_UI_COMPONENT_JBUTTON, Constant.JBUTTON_STATE_DISABLED).snapshot();
 		getRootPane().setDefaultButton( firstPrizeStopButton );
 	}
 
@@ -833,6 +1018,9 @@ public class LuckyDrawUI2014 extends JFrame implements ActionListener
 		if( firstPrizeDrewCount == Constant.FIRST_PRIZE_TOTAL_DRAWING_COUNT){
 			replenishButton.setEnabled( true );
 			prizeLevelComboBox.setEnabled(true);
+			new ResumeJButton(firstPrizeDrawButton, Constant.RESTORE_TYPE_OF_PRIZE_FIRST + Constant.RESTORE_TYPE_OF_UI_COMPONENT_JBUTTON, Constant.JBUTTON_STATE_DISABLED).snapshot();
+			new ResumeJButton(replenishButton, Constant.RESTORE_TYPE_OF_PRIZE_REPLENISH + Constant.RESTORE_TYPE_OF_UI_COMPONENT_JBUTTON, Constant.JBUTTON_STATE_ENABLED).snapshot();
+			new ResumeJComboBox(prizeLevelComboBox, Constant.RESTORE_TYPE_OF_REPLENISH_PRIZE_LEVEL + Constant.RESTORE_TYPE_OF_UI_COMPONENT_JCOMBOBOX, Constant.JBUTTON_STATE_ENABLED).snapshot();
 		}
 		else
 		{
@@ -841,6 +1029,7 @@ public class LuckyDrawUI2014 extends JFrame implements ActionListener
 		firstPrizeDrawButton.setText(getFirstClassDrawButtonText());
 		firstPrizeStopButton.setEnabled( false );
 		luckyDrawService.saveWithPrizeLevelAndIdSet(PrizeLevelFlag.FIRST_PRIZE.getValue(), tempResultsForEveryDrawing.keySet());
+		new ResumeLuckyDrawUI(this, Constant.RESTORE_TYPE_OF_PRIZE_FIRST).snapshot();
 	}
 
 	private void startDrawingTheTopPrize() {
@@ -942,6 +1131,7 @@ public class LuckyDrawUI2014 extends JFrame implements ActionListener
 	}
 
 	private void startReplenish() {
+		bgOfPanel = new ImageIcon( Constant.PATH_OF_DRAW_BG_PICTURE);
 		refreshContentPanel();
 		luckyDrawService.cacheData();
 		timer = new Timer( Constant.LABEL_REFRESH_PERIOD, new ActionListener()
@@ -1010,7 +1200,7 @@ public class LuckyDrawUI2014 extends JFrame implements ActionListener
 				return;
 			}
 		} else if(prizeLevel == PrizeLevelFlag.SECOND_PRIZE.getValue()){
-			if(secondPrizeDrewCount < Constant.SECOND_PRIZE_TOTAL_DRAWING_COUNT){
+			if(secondPrizeDrewCount < secondPrizeDrawCountMax){
 				replenishButton.setEnabled(false);
 				return;
 			}
@@ -1327,16 +1517,17 @@ public class LuckyDrawUI2014 extends JFrame implements ActionListener
     }
 
     private void paintSeatPrizeTableToUI(JTable table, String wayOfCombination) {
+    	int scale = Constant.SEAT_NUMBER_OF_EVERYTABLE / Integer.parseInt((String)seatPrizeFirstCountComboBox.getSelectedItem());
     	if (wayOfCombination.equals(Constant.LOTTERY_BY_TABLENUMPLUSSEATNUM))
 		{
-    		table.setRowHeight( 60 );
-    		table.setFont( new Font( "Dialog", Font.BOLD, 50 ) );
+    		table.setRowHeight( 60 * scale );
+    		table.setFont( new Font( "Dialog", Font.BOLD, 40 * scale ) );
 		}
 		else if ((wayOfCombination.equals(Constant.LOTTERY_BY_SSEATNUM))
 				|| (wayOfCombination.equals(Constant.LOTTERY_BY_TABLENUM)))
 		{
-			table.setRowHeight( 400 );
-    		table.setFont( new Font( "Dialog", Font.BOLD, 360 ) );
+			table.setRowHeight( 600 );
+    		table.setFont( new Font( "Dialog", Font.BOLD, 400 ) );
 		}
         DefaultTableCellRenderer render = new DefaultTableCellRenderer();
         table.setOpaque(false);
@@ -1525,5 +1716,89 @@ public class LuckyDrawUI2014 extends JFrame implements ActionListener
             }
         } );
     }
+
+	public void resumePrizeMaxCount(String prizeType, int maxCount) {
+		// TODO Auto-generated method stub
+		if (Constant.RESTORE_TYPE_OF_PRIZE_THIRD == prizeType)
+		{
+			thirdPrizeDrawCountMax = maxCount;
+		}
+		else if (Constant.RESTORE_TYPE_OF_PRIZE_SECOND == prizeType)
+		{
+			secondPrizeDrawCountMax = maxCount;
+		}
+		else if (Constant.RESTORE_TYPE_OF_PRIZE_SEAT == prizeType)
+		{
+			seatPrizeDrawCountMax = maxCount;
+		}
+	}
+
+	public void resumePrizeCurrentCount(String prizeType, int currentCount) {
+		// TODO Auto-generated method stub
+		if (Constant.RESTORE_TYPE_OF_PRIZE_FOURTH == prizeType)
+		{
+			forthPrizeDrewCount = currentCount;
+		}
+		else if (Constant.RESTORE_TYPE_OF_PRIZE_THIRD == prizeType)
+		{
+			thirdPrizeDrewCount = currentCount;
+		}
+		else if (Constant.RESTORE_TYPE_OF_PRIZE_SECOND == prizeType)
+		{
+			secondPrizeDrewCount = currentCount;
+		}
+		else if (Constant.RESTORE_TYPE_OF_PRIZE_FIRST == prizeType)
+		{
+			firstPrizeDrewCount = currentCount;
+		}
+		else if (Constant.RESTORE_TYPE_OF_PRIZE_SEAT == prizeType)
+		{
+			seatPrizeDrewCount = currentCount;
+		}
+	}
+
+	public int getPrizeMaxCount(String prizeType) {
+		// TODO Auto-generated method stub
+		if (Constant.RESTORE_TYPE_OF_PRIZE_THIRD == prizeType)
+		{
+			return thirdPrizeDrawCountMax;
+		}
+		else if (Constant.RESTORE_TYPE_OF_PRIZE_SECOND == prizeType)
+		{
+			return secondPrizeDrawCountMax;
+		}
+		else if (Constant.RESTORE_TYPE_OF_PRIZE_SEAT == prizeType)
+		{
+			return seatPrizeDrawCountMax;
+		}
+
+		return 0;
+	}
+
+	public int getPrizeCurrentCount(String prizeType) {
+		// TODO Auto-generated method stub
+		if (Constant.RESTORE_TYPE_OF_PRIZE_FOURTH == prizeType)
+		{
+			return forthPrizeDrewCount;
+		}
+		else if (Constant.RESTORE_TYPE_OF_PRIZE_THIRD == prizeType)
+		{
+			return thirdPrizeDrewCount;
+		}
+		else if (Constant.RESTORE_TYPE_OF_PRIZE_SECOND == prizeType)
+		{
+			return secondPrizeDrewCount;
+		}
+		else if (Constant.RESTORE_TYPE_OF_PRIZE_FIRST == prizeType)
+		{
+			return firstPrizeDrewCount;
+		}
+		else if (Constant.RESTORE_TYPE_OF_PRIZE_SEAT == prizeType)
+		{
+			return seatPrizeDrewCount;
+		}
+
+		return 0;
+	}
 
 }

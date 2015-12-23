@@ -8,13 +8,13 @@ import javax.swing.JComboBox;
 import com.luckydraw.ui.LuckyDrawUI2014;
 import com.luckydraw.util.Constant;
 
-public class SeatPrizeFirstRoundComboBox extends JComboBox implements ItemListener {
+public class SeatPrizeSeatNumOfSameTableComboBox extends JComboBox implements ItemListener {
 	private static final long serialVersionUID = 1L;
 
 	private LuckyDrawUI2014 parent;
 
-	public SeatPrizeFirstRoundComboBox(LuckyDrawUI2014 parent) {
-		super(Constant.COUNT_FOR_SEAT_PRIZE_DRAW);
+	public SeatPrizeSeatNumOfSameTableComboBox(LuckyDrawUI2014 parent) {
+		super(Constant.COUNT_FOR_SEAT_PRIZE_DRAW_SEAT_NUM);
 		this.parent = parent;
 		addItemListener(this);
 	}
@@ -22,7 +22,7 @@ public class SeatPrizeFirstRoundComboBox extends JComboBox implements ItemListen
 	@Override
 	public void itemStateChanged(ItemEvent arg0) {
 		// TODO Auto-generated method stub
-		parent.setSeatPrizeDrawState();
+		parent.setDrawnSeatNumOfSameTable();
 	}
 
 }

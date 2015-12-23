@@ -1,6 +1,8 @@
 package com.luckydraw.util;
 
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Constant {
 
@@ -15,7 +17,8 @@ public class Constant {
 	public static final int DREW_NUMBER_EVERYTIME_OF_SEAT_PRIZE_BY_TABLE_AND_SEAT = 5;
 	public static final int DREW_NUMBER_EVERYTIME_OF_SEAT_PRIZE_BY_SEAT = 1;
 	public static final int DREW_NUMBER_EVERYTIME_OF_SEAT_PRIZE_BY_TABLE = 1;
-	public static final int SEAT_NUMBER_OF_EVERYTABLE = 11;
+	public static final int SEAT_NUMBER_OF_EVERYTABLE = 10;
+	public static final int SEAT_NUMBER_OF_EVERYTABLE_BASE = 5;
 	public static final int DREW_NUMBER_EVERYTIME_OF_SECOND_PRIZE = 5;
 	public static final int DREW_NUMBER_EVERYTIME_OF_THIRD_PRIZE = 5;
 	public static final int DREW_NUMBER_EVERYTIME_OF_FIRST_PRIZE = 1;
@@ -52,9 +55,27 @@ public class Constant {
 
     public static final String[] COUNT_FOR_SECOND_PRIZE_DRAW = new String [] {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
 
-    public static final String[] COUNT_FOR_SEAT_PRIZE_DRAW = new String [] {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"};
+    public static final String[] COUNT_FOR_SEAT_PRIZE_DRAW_SEAT_NUM = new String [] {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"};
 
-    public static final String[] COUNT_FOR_SEAT_OPTION_DRAW = new String [] {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56"};
+    public static final String[] COUNT_FOR_SEAT_PRIZE_DRAW_REMAINING = new String [] {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56"};
+
+    public static final List<Integer[]> FONT_SIZE_WITH_DIFFERENT_QUATITY_DATA = new ArrayList<Integer[]>(){
+
+		private static final long serialVersionUID = 1L;
+
+		{
+    		add(new Integer []{400, 200});  //1
+    		add(new Integer []{300, 150});  //2
+    		add(new Integer []{200, 100});  //3
+    		add(new Integer []{150, 80});  //4
+    		add(new Integer []{120, 70});  //5
+    		add(new Integer []{100, 50});  //6
+    		add(new Integer []{80, 50});  //7
+    		add(new Integer []{70, 50});  //8
+    		add(new Integer []{60, 50});  //9
+    		add(new Integer []{50, 40});  //10
+    	}
+    };
 
 	public static final String ERROR_HINT = "<html><center>我都持续工作好几分钟了,<br>让我休息会儿</center></html>";
 	public static final String MSG_NSN_ID_INVALID = "<html><center>您这是火星的员工号,<br>地球识别不了</center></html>";
@@ -155,4 +176,5 @@ public class Constant {
 	public static final String RESTORE_TYPE_OF_UI_COMPONENT_JCOMBOBOX = "JComboBox";
 
 	public static final String RESTORE_TYPE_OF_PRIZE_SEAT_ALL_DRAWN_SNAPSHOT = "PrizeSeatAllDrawnSnapshot";
+	public static final String RESTORE_TYPE_OF_PRIZE_SEAT_REMAINING = "PrizeSeatRemaining";
 }

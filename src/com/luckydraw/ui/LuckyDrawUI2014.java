@@ -530,14 +530,14 @@ public class LuckyDrawUI2014 extends JFrame implements ActionListener
 			numbers = new String[]{"", ""};
 			if (wayOfCombination.equals(Constant.LOTTERY_BY_TABLENUMPLUSSEATNUM))
 			{
-				numbers[0] = String.valueOf(random.nextInt(56) + 1);
+				numbers[0] = String.valueOf(random.nextInt(57));
 				numbers[1] = String.valueOf(random.nextInt(11) + 1);
 
 				while(isStringsContainInList(tempResultOfSeatDraw, numbers)
 						|| isStringsContainInList(allDrawnSeatPrize, numbers)
 						|| isInExclusionOfSeatPrizeForSeatPrize(numbers))
 				{
-					numbers[0] = String.valueOf(random.nextInt(56) + 1);
+					numbers[0] = String.valueOf(random.nextInt(57));
 					numbers[1] = String.valueOf(random.nextInt(11) + 1);
 				}
 			}
@@ -556,14 +556,14 @@ public class LuckyDrawUI2014 extends JFrame implements ActionListener
 			}
 			else if (wayOfCombination.equals(Constant.LOTTERY_BY_TABLENUM))
 			{
-				numbers[0] = String.valueOf(random.nextInt(56) + 1);
+				numbers[0] = String.valueOf(random.nextInt(57));
 				numbers[1] = "ALL";  //seat nubmer
 
 				while(isStringsContainInList(tempResultOfSeatDraw, numbers)
 						|| isStringsContainInList(allDrawnSeatPrize, numbers)
 						|| isInExclusionOfSeatPrizeForSeatPrize(numbers))
 				{
-					numbers[0] = String.valueOf(random.nextInt(56) + 1);
+					numbers[0] = String.valueOf(random.nextInt(57));
 					numbers[1] = "ALL";  //seat nubmer
 				}
 			}
